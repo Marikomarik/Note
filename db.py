@@ -9,7 +9,7 @@ class db:
     id_ = 0
     storage = {}
 
-    def create(self, note: Note):
+    def Create(self, note: Note):
         self.id_ += 1
         self.storage[self.id_] = note
 
@@ -20,8 +20,17 @@ class db:
     def Read(self, ident: str) -> Note:
         for x, y in self.storage.items():
             if (y.id == ident):
-                return (y)
-
+                return(y)
+        print("NotFoun")
+    def Update(self, ident: str, note: Note):
+        for x, y in self.storage.items():
+            if (y.id == ident):
+                self.storage[x].id = note.id
+                self.storage[x].date = note.date
+                self.storage[x].title = note.title
+                self.storage[x].text = note.text
+                print("200")
+        print("NotFound")
 
 def dec(text: str) -> Note:
     temp = text.split('|')
@@ -40,14 +49,17 @@ def dec(text: str) -> Note:
 
 
 def code(note: Note) -> str:
-    done = note.id + "|" + note.date + "|" + note.title + "|" + note.text
-    return (done)
+    try:
+        done = note.id + "|" + note.date + "|" + note.title + "|" + note.text
+        return (done)
+    except AttributeError:
+        return("NotFound")
 
 
 st = db()
 aboba = "12|negr|ad|asd"
-st.create(dec(aboba))
-
-st.List()
+st.Create(dec(aboba))
+st.Update("12",dec("12|asd|asd|asd"))
+print(code(st.Read("11")))
 
 
